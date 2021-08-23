@@ -4,7 +4,10 @@ import {Menu} from "./menu.js";
 
 export class POS extends React.Component {
     state = {
-        basket: []
+        basket: {
+            items: [],
+            subTotal: 0
+        }
     };
 
     constructor(props) {
@@ -13,19 +16,25 @@ export class POS extends React.Component {
     }
 
     addToBasket(item) {
-        const basket = this.state.basket;
+        const {items: basketItems} = this.state.basket;
+        const items = [
+            ...basketItems,
+            item
+        ]
+        const subTotal = this.calculateSubTotal(items)
+
         this.setState({
-            basket: [
-                ...basket,
-                item
-            ]
+            basket: {
+                items,
+                subTotal
+            }
         })
     }
 
     render() {
         const basket = React.createElement(
             Basket,
-            {basketItems: this.state.basket}
+            {basket: this.state.basket}
         )
 
         const menu = React.createElement(
@@ -37,5 +46,11 @@ export class POS extends React.Component {
             menu,
             basket
         ]);
+    }
+
+    calculateSubTotal(items) {
+        return items.reduce((subTotal, item) => {
+            return subTotal + item.price
+        }, 0)
     }
 }
