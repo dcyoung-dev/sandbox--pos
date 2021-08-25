@@ -1,6 +1,26 @@
 import {Component, createElement} from 'react';
 import {MenuItem} from "./menuItem.js";
 
+export class Product {
+    #data = {}
+
+    get name() {
+        return this.#data.name
+    }
+
+    get price() {
+        return this.#data.price
+    }
+
+    constructor(props) {
+        const defaults = {name: "", price: 0}
+        this.#data = {
+            ...defaults,
+            ...props
+        }
+    }
+}
+
 export class Menu extends Component {
     state = {
         menuItems: []
@@ -20,9 +40,9 @@ export class Menu extends Component {
     getMenuItems() {
         return new Promise((resolve) => {
             const menuItems = [
-                {name: "Soup", price: 250},
-                {name: "Sandwich", price: 320},
-                {name: "Cola", price: 100},
+                new Product({name: "Soup", price: 250}),
+                new Product({name: "Sandwich", price: 320}),
+                new Product({name: "Cola", price: 100}),
             ]
             resolve(menuItems)
         })

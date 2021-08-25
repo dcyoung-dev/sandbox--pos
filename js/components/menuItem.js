@@ -11,7 +11,7 @@ export class MenuItem extends React.Component {
     }
 
     render() {
-        const {name: itemName} = this.item
+        const itemName = this.item.name
 
         const addToBasketButton = React.createElement(
             AddToBasketButton,
